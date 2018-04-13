@@ -28,6 +28,9 @@ def cc_grpc_library(name, srcs, deps, proto_only, well_known_protos, generate_mo
   proto_deps = ["_" + dep + "_only" for dep in deps if dep.find(':') == -1]
   proto_deps += [dep.split(':')[0] + ':' + "_" + dep.split(':')[1] + "_only" for dep in deps if dep.find(':') != -1]
 
+  if well_known_protos:
+    proto_deps.append("@com_google_protobuf//:well_known_protos_proto")
+
   native.proto_library(
       name = proto_target,
       srcs = srcs,
